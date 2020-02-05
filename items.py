@@ -3,6 +3,7 @@ class Items:
         self.name = name
         self.type = type
         self.item_lvl = lvl
+        self.my_hero = None
         self.atk_buff = atk
         self.defend_buff = defend
         self.hp_buff = hp
@@ -15,47 +16,47 @@ class Items:
         self.dodge_buff = dodge
 
     def on_inventory(self, hero):
-        for buff in [self.atk_buff, self.defend_buff, self.hp_buff, self.evade_buff, self.crit_buff, self.fs_buff, self.dodge_buff]:
-            if buff is self.atk_buff:
-                hero.atk += self.atk_buff
-            if buff is self.defend_buff:
-                hero.defend += self.defend_buff
-                if hero.defend >= hero.defend_limit:
-                    self.hero_defend_overdone = hero.defenf - hero.defend_limit
-                    hero.defend = hero.defend_limit
-            if buff is self.hp_buff:
-                hero.hp += self.hp_buff
-            if buff is self.evade_buff:
-                hero.evade += self.evade_buff
-                if hero.evade >= hero.evade_limit:
-                    self.hero_evade_overdone = hero.evade - hero.evade_limit
-                    hero.evade = hero.evade_limit
-            if buff is self.crit_buff:
-                hero.crit += self.crit_buff
-                if hero.crit >= hero.crit_limit:
-                    self.hero_crit_overdone = hero.crit - hero.crit_limit
-                    hero.crit = hero.crit_limit
-            if buff is self.fs_buff:
-                hero.first_strike += self.fs_buff
-            if buff is self.dodge_buff:
-                hero.dodge += self.dodge_buff
+        self.my_hero = hero
+        if self.atk_buff != 0:
+            self.my_hero.atk += self.atk_buff
+        if self.defend_buff != 0:
+            self.my_hero.defend += self.defend_buff
+            if self.my_hero.defend >= self.my_hero.defend_limit:
+                self.hero_defend_overdone = self.my_hero.defenf - hero.defend_limit
+                self.my_hero.defend = self.my_hero.defend_limit
+        if self.hp_buff != 0:
+            self.my_hero.hp += self.hp_buff
+        if self.evade_buff != 0:
+            self.my_hero.evade += self.evade_buff
+            if self.my_hero.evade >= self.my_hero.evade_limit:
+                self.hero_evade_overdone = self.my_hero.evade - self.my_hero.evade_limit
+                self.my_hero.evade = self.my_hero.evade_limit
+        if self.crit_buff != 0:
+            self.my_hero.crit += self.crit_buff
+            if self.my_hero.crit >= self.my_hero.crit_limit:
+                self.hero_crit_overdone = self.my_hero.crit - self.my_hero.crit_limit
+                self.my_hero.crit = self.my_hero.crit_limit
+        if self.fs_buff != 0:
+            self.my_hero.first_strike += self.fs_buff
+        if self.dodge_buff != 0:
+            self.my_hero.dodge += self.dodge_buff
 
-    def __del__(self, hero):
-        for buff in [self.atk_buff, self.defend_buff, self.hp_buff, self.evade_buff, self.crit_buff, self.fs_buff]:
-            if buff is self.atk_buff:
-                hero.atk -= self.atk_buff
-            if buff is self.defend_buff:
-                hero.defend -= self.defend_buff-self.hero_defend_overdone
-            if buff is self.hp_buff:
-                hero.hp -= self.hp_buff
-            if buff is self.evade_buff:
-                hero.evade -= self.evade_buff - self.hero_evade_overdone
-            if buff is self.crit_buff:
-                hero.crit -= self.crit_buff - self.hero_crit_overdone
-            if buff is self.fs_buff:
-                hero.first_strike -= self.fs_buff
-            if buff is self.dodge_buff:
-                hero.dodge -= self.dodge_buff
+    def __del__(self):
+        if self.my_hero != None:
+            if self.atk_buff != 0:
+                self.my_hero.atk -= self.atk_buff
+            if self.defend_buff != 0:
+                self.my_hero.defend -= self.defend_buff-self.hero_defend_overdone
+            if self.hp_buff != 0:
+                self.my_hero.hp -= self.hp_buff
+            if self.evade_buff != 0:
+                self.my_hero.evade -= self.evade_buff - self.hero_evade_overdone
+            if self.crit_buff != 0:
+                self.my_hero.crit -= self.crit_buff - self.hero_crit_overdone
+            if self.fs_buff != 0:
+                self.my_hero.first_strike -= self.fs_buff
+            if self.dodge_buff != 0:
+                self.my_hero.dodge -= self.dodge_buff
 
 items = {
     "Tier1": [Items("Короткий меч", type="weapon", lvl=1, atk=30),
